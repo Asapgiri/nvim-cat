@@ -148,6 +148,7 @@ impl Nvim {
         nvim.ui_detach()?;
 
         let id = nvim.request("nvim_get_option", ("termguicolors",))?;
+        let _gg = nvim.press_shift_gg();
         nvim.termguicolors = nvim.wait_for_response(id)?.as_bool().expect("expected a bool");
 
         // get synattr of Normal
@@ -196,6 +197,11 @@ impl Nvim {
 
     pub fn press_enter(&mut self) -> NvimResult<()> {
         self.request("vim_input", ("<CR>",))?;
+        Ok(())
+    }
+
+    pub fn press_shift_gg(&mut self) -> NvimResult<()> {
+        self.request("vim_input", ("GG",))?;
         Ok(())
     }
 
